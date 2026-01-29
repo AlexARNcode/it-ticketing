@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\TicketStatus;
 use App\Events\TicketCreated;
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,6 +21,7 @@ class Ticket extends Model
     ];
 
     protected $casts = [
+        'status' => TicketStatus::class,
         'first_response_due_at' => 'datetime',
         'resolution_due_at' => 'datetime',
     ];
