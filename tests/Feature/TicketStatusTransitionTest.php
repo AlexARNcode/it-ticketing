@@ -21,13 +21,6 @@ class TicketStatusTransitionTest extends TestCase
         $organization = Organization::factory()->create();
         $user = User::factory()->create(['organization_id' => $organization->id]);
 
-        SlaPolicy::create([
-            'organization_id' => $organization->id,
-            'priority' => 'normal',
-            'first_response_minutes' => 60,
-            'resolution_minutes' => 480,
-        ]);
-
         $ticket = Ticket::create([
             'organization_id' => $organization->id,
             'created_by' => $user->id,
@@ -51,13 +44,6 @@ class TicketStatusTransitionTest extends TestCase
         $organization = Organization::factory()->create();
         $user = User::factory()->create(['organization_id' => $organization->id]);
 
-        SlaPolicy::create([
-            'organization_id' => $organization->id,
-            'priority' => 'normal',
-            'first_response_minutes' => 60,
-            'resolution_minutes' => 480,
-        ]);
-
         $ticket = Ticket::create([
             'organization_id' => $organization->id,
             'created_by' => $user->id,
@@ -79,13 +65,6 @@ class TicketStatusTransitionTest extends TestCase
         $organization = Organization::factory()->create();
         $user = User::factory()->create(['organization_id' => $organization->id]);
 
-        SlaPolicy::create([
-            'organization_id' => $organization->id,
-            'priority' => 'normal',
-            'first_response_minutes' => 60,
-            'resolution_minutes' => 480,
-        ]);
-
         $ticket = Ticket::create([
             'organization_id' => $organization->id,
             'created_by' => $user->id,
@@ -106,13 +85,6 @@ class TicketStatusTransitionTest extends TestCase
     {
         $organization = Organization::factory()->create();
         $user = User::factory()->create(['organization_id' => $organization->id]);
-
-        SlaPolicy::create([
-            'organization_id' => $organization->id,
-            'priority' => 'normal',
-            'first_response_minutes' => 60,
-            'resolution_minutes' => 480,
-        ]);
 
         $ticket = Ticket::create([
             'organization_id' => $organization->id,

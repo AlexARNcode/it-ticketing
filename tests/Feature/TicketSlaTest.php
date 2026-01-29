@@ -22,13 +22,6 @@ class TicketSlaTest extends TestCase
             'organization_id' => $organization->id,
         ]);
 
-        SlaPolicy::create([
-            'organization_id' => $organization->id,
-            'priority' => 'high',
-            'first_response_minutes' => 30,
-            'resolution_minutes' => 120,
-        ]);
-
         $before = now();
 
         $ticket = Ticket::create([
