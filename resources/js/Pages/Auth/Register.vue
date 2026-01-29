@@ -11,6 +11,7 @@ const form = useForm({
     email: '',
     password: '',
     password_confirmation: '',
+    organization_id: '',
 });
 
 const submit = () => {
@@ -90,6 +91,22 @@ const submit = () => {
                     class="mt-2"
                     :message="form.errors.password_confirmation"
                 />
+            </div>
+
+            <div class="mt-4">
+                <InputLabel for="organization_id" value="Organization ID" />
+
+                Test : {{ form.organization_id }}
+
+                <TextInput
+                    id="organization_id"
+                    type="number"
+                    class="mt-1 block w-full"
+                    v-model="form.organization_id"
+                    required
+                />
+
+                <InputError class="mt-2" :message="form.errors.organization_id" />
             </div>
 
             <div class="mt-4 flex items-center justify-end">
