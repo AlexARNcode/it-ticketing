@@ -2,11 +2,16 @@
 
 namespace App\Models;
 
+use Database\Factories\OrganizationFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Organization extends Model
 {
-     public function users()
+    /** @use HasFactory<OrganizationFactory> */
+    use HasFactory;
+
+    public function users()
     {
         return $this->hasMany(User::class);
     }
