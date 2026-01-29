@@ -1,0 +1,17 @@
+import './bootstrap';
+
+import { createApp, h } from 'vue';
+import { createInertiaApp } from '@inertiajs/vue3';
+
+createInertiaApp({
+  resolve: (name: string) => {
+    const pages = import.meta.glob<{ default: any }>('./Pages/**/*.vue', { eager: true });
+    return pages[`./Pages/${name}.vue`];
+  },
+  setup({ el, App, props, plugin }) {
+    createApp({ render: () => h(App, props) })
+      .use(plugin)
+      .mount(el);
+  },
+});
+
