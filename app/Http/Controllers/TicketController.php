@@ -31,7 +31,7 @@ class TicketController extends Controller
         ]);
     }
 
-    public function store(StoreTicketRequest $request): JsonResponse
+    public function store(StoreTicketRequest $request): Response
     {
         $validated = $request->validated();
         $user = $request->user();
@@ -44,6 +44,8 @@ class TicketController extends Controller
             ...$validated,
         ]);
 
-        return response()->json(['id' => $ticket->id]);
+        return Inertia::render('Tickets/Show', [
+            'ticket' => $ticket,
+        ]); 
     }
 }
