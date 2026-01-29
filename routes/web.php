@@ -25,7 +25,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::prefix('tickets')->group(function () {
+Route::middleware('auth')->prefix('tickets')->group(function () {
     Route::get('/', [TicketController::class, 'index'])->name('tickets.index');
     Route::get('/create', [TicketController::class, 'create'])->name('tickets.create');
     Route::post('/', [TicketController::class, 'store'])->name('tickets.store');
