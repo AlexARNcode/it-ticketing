@@ -51,7 +51,7 @@ class TransitionTicketStatus
 
     private function validateResolvedTransitions(TicketStatus $to): void
     {
-        if ($to !== TicketStatus::OPEN) {
+        if (!in_array($to, [TicketStatus::OPEN,TicketStatus::CLOSED], true)) {
             throw new DomainException('Invalid transition from RESOLVED to ' . $to->value);
         }
     }

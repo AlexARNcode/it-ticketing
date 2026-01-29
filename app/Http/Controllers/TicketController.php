@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\TicketStatus;
 use App\Http\Requests\StoreTicketRequest;
 use App\Models\Ticket;
-use Illuminate\Http\JsonResponse;
+use App\Services\Tickets\TransitionTicketStatus;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -45,6 +47,15 @@ class TicketController extends Controller
         ]);
 
         return Inertia::render('Tickets/Show', [
+            'ticket' => $ticket,
+        ]); 
+    }
+
+    public function updateStatus(Request $request, Ticket $ticket, TransitionTicketStatus $service): Response
+    {
+        $service->handle($ticket, TicketStatus::from($request->status));
+
+         return Inertia::render('Tickets/Show', [
             'ticket' => $ticket,
         ]); 
     }

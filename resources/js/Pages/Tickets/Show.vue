@@ -1,8 +1,17 @@
 <template>
   <div class="max-w-4xl mx-auto px-4 py-8">
-    <div class="mb-8">
-      <a href="/tickets" class="text-blue-600 hover:underline text-sm mb-2 inline-block">← Back to Tickets</a>
-      <h1 class="text-3xl font-bold mt-2">{{ ticket.title }}</h1>
+    <div class="mb-8 flex justify-between items-start">
+      <div>
+        <a href="/tickets" class="text-blue-600 hover:underline text-sm mb-2 inline-block">← Back to Tickets</a>
+        <h1 class="text-3xl font-bold mt-2">{{ ticket.title }}</h1>
+      </div>
+
+      <button
+        @click="toggleEdit"
+        class="text-sm bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded"
+      >
+        {{ isEditing ? 'Cancel' : 'Edit' }}
+      </button>
     </div>
 
     <div class="bg-gray-50 rounded-lg p-6">
@@ -12,16 +21,33 @@
       </div>
 
       <div class="grid grid-cols-2 gap-6 mb-6 py-4 px-0 border-y border-gray-200">
+        <!-- STATUS -->
         <div>
           <label class="font-semibold text-xs text-gray-600 mb-2 block">Status</label>
-          <span :class="getStatusClasses(ticket.status)">
+
+          <span v-if="!isEditing" :class="getStatusClasses(ticket.status)">
             {{ formatStatus(ticket.status) }}
           </span>
+
+          <select
+            v-else
+            v-model="form.status"
+            class="border rounded px-2 py-1 text-sm w-full"
+          >
+            <option value="open">Open</option>
+            <option value="in_progress">In Progress</option>
+            <option value="resolved">Resolved</option>
+            <option value="closed">Closed</option>
+          </select>
         </div>
 
+        <!-- PRIORITY -->
         <div>
           <label class="font-semibold text-xs text-gray-600 mb-2 block">Priority</label>
-          <span class="font-medium text-gray-800">{{ ticket.priority }}</span>
+
+          <span class="font-medium text-gray-800">
+            {{ ticket.priority }}
+          </span>
         </div>
       </div>
 
@@ -53,11 +79,24 @@
           <span class="text-sm text-gray-800">{{ formatDateTime(ticket.updated_at) }}</span>
         </div>
       </div>
+
+      <!-- SAVE -->
+      <div v-if="isEditing" class="mt-6 text-right">
+        <button
+          @click="save"
+          class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+        >
+          Save changes
+        </button>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
+import { router } from '@inertiajs/vue3'
+
 interface Ticket {
   id: number;
   title: string;
@@ -70,9 +109,32 @@ interface Ticket {
   updated_at: string;
 }
 
-defineProps<{
+const props = defineProps<{
   ticket: Ticket;
 }>();
+
+const isEditing = ref(false)
+
+const form = ref({
+  status: props.ticket.status,
+  priority: props.ticket.priority,
+})
+
+const toggleEdit = () => {
+  isEditing.value = !isEditing.value
+
+  if (!isEditing.value) {
+    form.value.status = props.ticket.status
+  }
+}
+
+const save = () => {
+  router.patch(`/tickets/${props.ticket.id}/status`, {
+    status: form.value.status,
+  })
+
+  isEditing.value = false
+}
 
 const formatStatus = (status: string): string => {
   const map: Record<string, string> = {
@@ -107,3 +169,4 @@ const formatDateTime = (datetime: string | null): string => {
   });
 };
 </script>
+

@@ -28,8 +28,10 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->prefix('tickets')->group(function () {
     Route::get('/', [TicketController::class, 'index'])->name('tickets.index');
     Route::get('/create', [TicketController::class, 'create'])->name('tickets.create');
-    Route::post('/', [TicketController::class, 'store'])->name('tickets.store');
     Route::get('/{ticket}', [TicketController::class, 'show'])->name('tickets.show');
+
+    Route::post('/', [TicketController::class, 'store'])->name('tickets.store');
+    Route::patch('/{ticket}/status', [TicketController::class, 'updateStatus'])->name('tickets.updateStatus');
 });
 
 require __DIR__.'/auth.php';
