@@ -34,10 +34,11 @@ class TicketController extends Controller
     public function store(StoreTicketRequest $request): JsonResponse
     {
         $validated = $request->validated();
+        $user = $request->user();
 
         $ticket = Ticket::create([
-            'organization_id' => 1,
-            'created_by' => 1,
+            'organization_id' => $user->organization_id,
+            'created_by' => $user->id,
             'assigned_to' => null,
             'status' => 'open',
             ...$validated,
