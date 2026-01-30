@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\UserRole;
 use App\Models\Organization;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -20,15 +21,26 @@ class DatabaseSeeder extends Seeder
             'name' => fake()->word()
         ]);
 
-        // 2. Users
+        // 2a. Admin user
         User::factory()->create([
-            'name' => 'test',
-            'email' => 'test@test.com',
+            'name' => 'admin',
+            'email' => 'admin@test.com',
             'organization_id' => $organization->id,
             'password' => Hash::make('password'),
+            'role' => UserRole::ADMIN->value,
 
         ]);
 
+        // 2b. Tech user
+        User::factory()->create([
+            'name' => 'tech',
+            'email' => 'tech@test.com',
+            'organization_id' => $organization->id,
+            'password' => Hash::make('password'),
+            'role' => UserRole::TECH->value,
+        ]);
+
+        // 2c. Normal users
         for ($i = 0; $i < 3; $i++) {
             $firstName = fake()->firstName();
             $lastName = fake()->lastName();
@@ -48,6 +60,7 @@ class DatabaseSeeder extends Seeder
                 'email' => $email,
                 'organization_id' => $organization->id,
                 'password' => Hash::make('password'),
+                'role' => UserRole::USER->value,
             ]);
         }
     }

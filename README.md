@@ -46,34 +46,45 @@ Allowed status transitions:
 ```bash
 git clone https://github.com/your-username/it-ticketing.git
 cd it-ticketing
+```
 
-2. Install dependencies
+### 2. Install dependencies
+```bash
 composer install
 npm install
+```
 
-3. Environment
+### 3. Environment
+```bash
 cp .env.example .env
 php artisan key:generate
+```
 
 Configure your database in .env.
 
-Run with Sail (Docker)
+### 4. Run with Sail (Docker)
+```bash
 ./vendor/bin/sail up -d
-./vendor/bin/sail artisan migrate
+./vendor/bin/sail artisan migrate --seed // creates 1 org, 1 admin user, 1 tech user, 3 normal users
 ./vendor/bin/sail npm run dev
-Database Seeding
-Creates:
+```
 
-1 organization
-1 test user
-3 fake users
-
-Default SLA policies:
-./vendor/bin/sail artisan db:seed
-
-Default login:
-email: test@test.com
+### 5. Default logins:
+Go to http://localhost/login
+```bash
+email: tech@test.com
 password: password
 
-Tests
+admin: admin@test.com
+password: password
+
++ 3 normal users (see in DB)
+```
+
+### 6. Use app: 
+After logged in, go to: http://localhost/tickets
+
+### 7. Tests
+```bash
 ./vendor/bin/sail artisan test
+```
