@@ -37,6 +37,36 @@ Allowed status transitions:
 - RESOLVED → OPEN (reopen allowed)
 - CLOSED → immutable
 
+## Ticket Policy (Authorization)
+
+User permissions are role-based:
+
+- View & Create: All users
+- Update: TECH and ADMIN can update any ticket; regular users can update their own
+- Delete / Restore / Force Delete: Only ADMIN
+
+This ensures users can act on their tickets while respecting role restrictions.
+
+## SLA Resolution for Tickets
+#### What is SLA?
+A Service Level Agreement (SLA) defines the expected response and resolution times for tickets based on their priority and organization.
+
+#### SLA in this app:
+The application automatically sets SLA deadlines when a ticket is created:
+
+If the ticket doesn’t already have SLA deadlines, it finds the SLA policy matching the ticket’s organization and priority.
+
+It calculates:
+- First response due time = current time + first_response_minutes from the policy
+
+- Resolution due time = current time + resolution_minutes from the policy
+
+These deadlines are saved on the ticket.
+
+If no matching SLA policy exists, an error is thrown.
+
+This ensures every ticket has proper SLA deadlines based on its organization and priority.
+
 ---
 
 ## Installation
