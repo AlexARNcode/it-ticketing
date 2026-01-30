@@ -15,7 +15,7 @@ class TicketController extends Controller
 {
     public function index(): Response
     {
-        $tickets = Ticket::all();
+        $tickets = Ticket::all(); // TODO: Organization scope
 
         return Inertia::render('Tickets/Index', [
             'tickets' => $tickets,
