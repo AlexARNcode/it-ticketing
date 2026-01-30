@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Tickets\CreateTicketAction;
 use App\Enums\TicketStatus;
 use App\Http\Requests\StoreTicketRequest;
 use App\Models\Ticket;
@@ -33,18 +34,9 @@ class TicketController extends Controller
         ]);
     }
 
-    public function store(StoreTicketRequest $request): Response
+    public function store(StoreTicketRequest $request, CreateTicketAction $action): Response
     {
-        $validated = $request->validated();
-        $user = $request->user();
-
-        $ticket = Ticket::create([
-            'organization_id' => $user->organization_id,
-            'created_by' => $user->id,
-            'assigned_to' => null,
-            'status' => 'open',
-            ...$validated,
-        ]);
+        $ticket = $action->execute($request->validated(), $request->user());
 
         return Inertia::render('Tickets/Show', [
             'ticket' => $ticket,

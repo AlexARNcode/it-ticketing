@@ -17,6 +17,8 @@ class StoreTicketRequest extends FormRequest
             'title' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
             'priority' => ['required', 'string', 'in:low,normal,high,urgent'],
+            'status' => ['required', 'string', 'in:open,in_progress,resolved,closed'],
+            'assigned_to' => ['nullable', 'exists:users,id'],
         ];
     }
 }
